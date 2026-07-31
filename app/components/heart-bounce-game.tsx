@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import LuckyWheel from "./lucky-wheel";
 
 const BALL_SIZE = 46;
 const PADDLE_WIDTH = 120;
@@ -222,7 +223,7 @@ export default function HeartBounceGame() {
         </button>
 
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold tabular-nums text-[#37160C]/50">
+          {/* <span className="text-sm font-semibold tabular-nums text-[#37160C]/50">
             {String(score).padStart(3, "0")}
           </span>
           <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#37160C]/15 to-[#37160C]/5 text-base ring-2 ring-white">
@@ -230,9 +231,9 @@ export default function HeartBounceGame() {
               👑
             </span>
             🧡
-          </div>
-          <span className="text-sm font-semibold tabular-nums text-[#37160C]/50">
-            {String(best).padStart(3, "0")}
+          </div> */}
+          <span className="max-w-[110px] whitespace-nowrap text-[20px] font-semibold text-[#37160C]/60">
+            {Math.max(WIN_SCORE - score, 0)} to 🎁
           </span>
         </div>
       </div>
@@ -292,7 +293,7 @@ export default function HeartBounceGame() {
                 )}
               </>
             ) : (
-              <p className="text-4xl">💛</p>
+              <img src="/textlogo.png"></img>
             )}
           </div>
           <button
@@ -305,28 +306,8 @@ export default function HeartBounceGame() {
         </div>
       )}
 
-      {/* Lucky wheel hand-off screen (wheel UI to be built later) */}
-      {status === "wheel" && (
-        <div className="absolute inset-0 z-40 flex flex-col items-center justify-between bg-[#FDF5E5] px-8 py-16 text-center">
-          <div />
-          <div className="space-y-2">
-            <p className="text-5xl">🎡</p>
-            <p className="text-lg font-semibold text-[#37160C]">
-              Lucky Wheel
-            </p>
-            <p className="text-sm text-[#37160C]/60">
-              You reached {WIN_SCORE} bounces — the wheel is coming soon.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={startGame}
-            className="w-full max-w-[220px] rounded-full bg-[#37160C] px-10 py-3.5 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95"
-          >
-            Play again
-          </button>
-        </div>
-      )}
+      {/* Lucky wheel hand-off screen */}
+      {status === "wheel" && <LuckyWheel onPlayAgain={startGame} />}
     </div>
   );
 }

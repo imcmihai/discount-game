@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Heart Bounce",
-  description: "Keep the heart in the air",
+  title: "Citric Valley - Collection Launch Suprise",
+  description: "Win discount on Not for Socials collection",
 };
 
 export default function RootLayout({
