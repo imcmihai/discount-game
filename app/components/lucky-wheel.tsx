@@ -9,20 +9,25 @@ type Segment = {
   text: string;
 };
 
+// Every color is a shade drawn from the brand's own cream-to-brown range —
+// dull, light tans for the weak outcomes, a warm gold for the common 10%
+// win, and deepening terracotta/brown for the rarer prizes, bottoming out at
+// the brand's exact dark brown for the top prize.
+//
 // 10% discount segments are spread evenly between every other slot, so every
 // "weaker" outcome (Sorry / 5%) and every rare big prize sits directly next
 // to a 10% win — landing there always feels like a narrow, lucky escape.
 const SEGMENTS: Segment[] = [
-  { kind: "20", label: "20% OFF", color: "#E0793A", text: "#FFF7EC" },
-  { kind: "10", label: "10% OFF", color: "#F6B93B", text: "#37160C" },
-  { kind: "shirt", label: "Free T-Shirt", color: "#6C5CE7", text: "#FFF7EC" },
-  { kind: "10", label: "10% OFF", color: "#F6B93B", text: "#37160C" },
-  { kind: "50", label: "50% OFF", color: "#C0392B", text: "#FFF7EC" },
-  { kind: "10", label: "10% OFF", color: "#F6B93B", text: "#37160C" },
-  { kind: "5", label: "5% OFF", color: "#EFDAB0", text: "#37160C" },
-  { kind: "10", label: "10% OFF", color: "#F6B93B", text: "#37160C" },
-  { kind: "sorry", label: "Maybe Next Time", color: "#CBB99A", text: "#37160C" },
-  { kind: "10", label: "10% OFF", color: "#F6B93B", text: "#37160C" },
+  { kind: "20", label: "20% OFF", color: "#C97A34", text: "#FDF5E5" },
+  { kind: "10", label: "10% OFF", color: "#E4A63D", text: "#37160C" },
+  { kind: "shirt", label: "Free T-Shirt", color: "#37160C", text: "#FDF5E5" },
+  { kind: "10", label: "10% OFF", color: "#E4A63D", text: "#37160C" },
+  { kind: "50", label: "50% OFF", color: "#8A4A26", text: "#FDF5E5" },
+  { kind: "10", label: "10% OFF", color: "#E4A63D", text: "#37160C" },
+  { kind: "5", label: "5% OFF", color: "#EEDDBB", text: "#37160C" },
+  { kind: "10", label: "10% OFF", color: "#E4A63D", text: "#37160C" },
+  { kind: "sorry", label: "Maybe Next Time", color: "#D9CBB2", text: "#37160C" },
+  { kind: "10", label: "10% OFF", color: "#E4A63D", text: "#37160C" },
 ];
 
 const SEGMENT_ANGLE = 360 / SEGMENTS.length;
@@ -89,7 +94,7 @@ export default function LuckyWheel({ onPlayAgain }: LuckyWheelProps) {
     <div className="absolute inset-0 z-40 flex flex-col items-center justify-between bg-[#FDF5E5] px-6 py-12 text-center">
       <div className="space-y-1">
         <p className="text-3xl font-semibold text-[#37160C]">Challange your luck</p>
-        <p className="text-lg text-[#37160C]/60">
+        <p className="text-md text-[#37160C]/70">
           {result ? "Here's what you won!" : "For our debut collection we wanted to make it fun and also give back to you a little something. So here it is, see if you get lucky!"}
         </p>
       </div>
