@@ -49,6 +49,8 @@ function randomCode() {
   return code;
 }
 
+const DISCOUNT_CODE = "VHQ4Y9JAB2DY";
+
 type LuckyWheelProps = {
   onPlayAgain?: () => void;
 };
@@ -57,7 +59,9 @@ export default function LuckyWheel({ onPlayAgain }: LuckyWheelProps) {
   const [rotation, setRotation] = useState(0);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<Segment | null>(null);
+  const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const conicBackground = useMemo(() => {
     const stops = SEGMENTS.map(
@@ -89,6 +93,38 @@ export default function LuckyWheel({ onPlayAgain }: LuckyWheelProps) {
       setResult(SEGMENTS[targetIndex]);
     }, SPIN_DURATION_MS);
   }, [spinning, result]);
+
+  const handleCopyCode = useCallback(() => {
+    const showCopied = () => {
+      setCopied(true);
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+      copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
+    };
+
+    const fallbackCopy = () => {
+      const textarea = document.createElement("textarea");
+      textarea.value = DISCOUNT_CODE;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    };
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(DISCOUNT_CODE).then(showCopied, () => {
+        fallbackCopy();
+        showCopied();
+      });
+    } else {
+      fallbackCopy();
+      showCopied();
+    }
+  }, []);
 
   return (
     <div className="absolute inset-0 z-40 flex flex-col items-center justify-between bg-[#FDF5E5] px-6 py-12 text-center">
@@ -160,17 +196,25 @@ export default function LuckyWheel({ onPlayAgain }: LuckyWheelProps) {
             <p className="text-2xl font-black text-[#37160C]">{result.label}</p>
           </div>
           {result.kind !== "sorry" && (
-            <div className="rounded-2xl border-2 border-dashed border-[#37160C]/30 px-4 py-3">
+            <div className="rounded-2xl border-2 border-dashed border-[#37160C]/30 px-4 py-3 text-left">
               <p className="text-[11px] font-medium uppercase tracking-wide text-[#37160C]/50">
                 Your one time use code
               </p>
-              <p className="text-lg font-bold tracking-[0.2em] text-[#37160C]">
-                VHQ4Y9JAB2DY
-              </p>
-              
+              <div className="mt-1.5 flex items-center justify-between gap-2">
+                <p className="text-base font-bold tracking-[0.15em] text-[#37160C]">
+                  {DISCOUNT_CODE}
+                </p>
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="shrink-0 rounded-full bg-[#37160C]/10 px-3 py-1.5 text-xs font-semibold text-[#37160C] transition-colors active:scale-95"
+                >
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+              </div>
             </div>
           )}
-          <a href="https://citricvalley.com/discount/VHQ4Y9JAB2DY" className="text-lg font-bold underline">Use your discount</a>
+          <a href={`https://citricvalley.com/discount/${DISCOUNT_CODE}`} className="text-lg font-bold underline">Use your discount - it will automatically be applied to your checkout cart</a>
           {/* <button
             type="button"
             onClick={onPlayAgain}
